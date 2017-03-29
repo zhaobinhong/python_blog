@@ -6,9 +6,28 @@ from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from article.models import Article
+from django.contrib.syndication.views import Feed
 
 
 # Create your views here.
+
+class RSSFeed(Feed):
+    title = "RSS feed - article"
+    link = "feeds/posts/"
+    description = "RSS feed - blog posts"
+
+    def items(self):
+        return Article.objects.order_by('-date_time')
+
+    def item_title(self, item):
+        return item.title
+
+    # def item_pubdate(self, item):
+    #     return item.add_date
+
+    def item_description(self, item):
+        return item.content
+
 
 def home(request):
     post_list = Article.objects.all()
