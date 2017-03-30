@@ -2,6 +2,7 @@
 import json
 
 import datetime
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
@@ -26,11 +27,20 @@ class RSSFeed(Feed):
     #     return item.add_date
 
     def item_description(self, item):
-        return item.content
+        return item.conte
 
 
 def home(request):
     post_list = Article.objects.all()
+    # 分页
+    paginator = Paginator(post_list, 2)
+    page = request.GET.get('page')
+    try:
+        post_list = paginator.page(page)
+    except PageNotAnInteger:
+        post_list = paginator.page(1)
+    except EmptyPage:
+        post_list = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {'post_list': post_list})
 
 
