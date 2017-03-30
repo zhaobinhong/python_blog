@@ -102,3 +102,8 @@ def blog_search(request):
                 return render(request, 'archives.html', {'post_list': post_list,
                                                          'error': False})
     return redirect('/')
+
+
+def write(request):
+    date = datetime.datetime.now()
+    return render(request, 'write.html', {"date1":date})

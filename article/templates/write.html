@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="write">
+        <section class="post">
+
+            {{ date1 }}
+            <div class="write-content">
+                <input type="text" placeholder="题目">
+                <select id="text—option" size="1">
+                    <option value="volvo">Volvo</option>
+                    <option value="saab">Saab</option>
+                    <option value="opel">Opel</option>
+                    <option value="audi">Audi</option>
+                </select>
+                <textarea name="content" id="text-content" cols="30" rows="10">
+                </textarea>
+            </div>
+        </section>
+    </div><!-- /.blog-post -->
+{% endblock %}
