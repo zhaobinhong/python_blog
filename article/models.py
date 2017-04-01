@@ -5,6 +5,7 @@ from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 # Create your models here.
@@ -26,3 +27,7 @@ class Article(models.Model):
 
     class Meta:  # 按时间下降排序
         ordering = ['-date_time']
+        verbose_name = _(u'文章列表')
+        verbose_name_plural = _(u'文章列表')
+
+

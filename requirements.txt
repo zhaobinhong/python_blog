@@ -19,3 +19,10 @@ simplegeneric==0.8.1
 six==1.10.0
 traitlets==4.3.2
 wcwidth==0.1.7
+
+djangorestframework-word-filter
+djangorestframework-recursive
+djangorestframework-filters
+django-rest-multiple-models
+djangorestframework-oauth
+djangorestframework

@@ -9,8 +9,8 @@ from django.shortcuts import render, redirect
 from article.models import Article
 from django.contrib.syndication.views import Feed
 
-
 # Create your views here.
+
 
 class RSSFeed(Feed):
     title = "RSS feed - article"
@@ -106,4 +106,13 @@ def blog_search(request):
 
 def write(request):
     date = datetime.datetime.now()
-    return render(request, 'write.html', {"date1":date})
+    return render(request, 'write.html', {"date1": date})
+
+#
+# class writeSqlViewSet(viewsets.ModelViewSet):
+#     '''
+#     存文章接口
+#     '''
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleSerializer
+#     permission_classes = (IsAuthenticated,)
