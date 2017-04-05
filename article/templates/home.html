@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+
 {% block content %}
     <div class="posts">
         {% for post in post_list %}
@@ -16,7 +17,10 @@
 
                 <div class="post-description">
                     <p>
-                        {{ post.content | truncatechars:20 }}
+                        {% load djangomarkdown %}
+                        {{ post.content | truncatechars:20 | djangomarkdown }}
+
+
                     </p>
                 </div>
                 <a class="pure-button" href="{% url "detail" id=post.id %}">Read More >>> </a>
@@ -38,4 +42,5 @@
         {% endif %}
 
     </div><!-- /.blog-post -->
+
 {% endblock %}
