@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'article',
 ]
 
-
 BOOTSTRAP_ADMIN_SIDEBAR_MENU = True
 
 # TEMPLATE_DIRS = (
