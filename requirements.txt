@@ -26,3 +26,5 @@ djangorestframework-filters
 django-rest-multiple-models
 djangorestframework-oauth
 djangorestframework
+
+markdown
