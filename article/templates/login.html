@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>登陆页面：</h1>
+    <form method='post' enctype="multipart/form-data">
+        {#    {% csrf_token %}#}
+        {{ uf.as_p }}
+        <input type="submit" value="登录"/>
+    </form>
+    <br>
+    <script type="text/javascript">
+
+    </script>
+{% endblock %}

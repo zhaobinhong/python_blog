@@ -31,3 +31,11 @@ class Article(models.Model):
         ordering = ['-date_time']
         verbose_name = _(u'文章列表')
         verbose_name_plural = _(u'文章列表')
+
+
+class User(models.Model):
+    username = models.CharField(max_length=50)
+    password = models.CharField(max_length=50)
+
+    def __unicode__(self):
+        return self.username

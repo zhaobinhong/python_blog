@@ -15,7 +15,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url, include
 from django.contrib import admin
 from article import views
 from article.views import RSSFeed
@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^search/$', views.blog_search, name='blog_search'),
     url(r'^feed/$', RSSFeed(), name="RSS"),
     url(r'^write/$', views.write, name="write"),
+    url(r'^online/', include('article.urls'))
     # url(r'^writeSql/$', views.writeSqlViewSet, name="writeSql"),
 
 ]

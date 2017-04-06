@@ -82,9 +82,53 @@
                         <li><a href="http://github.com/yahoo/pure/">GitHub</a></li>
                     </ul>
                 </div>
+                <div id="lin" class="content pure-u-1 pure-u-md-3-4">
+
+                    <span id="username">请登录</span>
+                    <br>
+                    <br>
+                    <a id="login" class="button-success pure-button" href='/online/login'>登录</a>
+                    <a id="regist" class="button-success pure-button" href='/online/regist/'>注册</a>
+                </div>
             </div>
         </div>
     </div>
+
+
 </div>
+
+<script type="text/javascript">
+
+    function getQueryString(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return unescape(r[2]);
+        return null;
+    }
+
+    var login = document.getElementById("login");
+    var regist = document.getElementById("regist");
+    var lin = document.getElementById("lin");
+    var username = document.getElementById("username");
+    console.log(getQueryString("username"));
+    var name = getQueryString("username");
+    if (name && name !== "null") {
+
+        username.innerHTML = "<a style='cursor:none;'>"+name+"</a>" + "　，您好";
+        regist.style.display = "none";
+        login.style.display = "none";
+        var node = document.createElement("a");
+        node.className = "button-success pure-button";
+        node.href = '/online/regist/';
+        node.id = "logout";
+        var textnode = document.createTextNode("登出");
+        node.appendChild(textnode);
+        lin.appendChild(node);
+
+    }
+    if (name == "null") {
+        username.innerHTML = "请登录";
+    }
+</script>
 </body>
 </html>
