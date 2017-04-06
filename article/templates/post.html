@@ -15,7 +15,8 @@
 
             <div class="post-description">
                 <p>
-                    {{ post.content }}
+                    {% load djangomarkdown %}
+                    {{ post.content | djangomarkdown}}
                 </p>
             </div>
         </section>

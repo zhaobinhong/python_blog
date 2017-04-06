@@ -2,14 +2,15 @@
 import json
 
 import datetime
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from article.models import Article
 from django.contrib.syndication.views import Feed
 
-
 # Create your views here.
+
 
 class RSSFeed(Feed):
     title = "RSS feed - article"
@@ -26,11 +27,20 @@ class RSSFeed(Feed):
     #     return item.add_date
 
     def item_description(self, item):
-        return item.content
+        return item.conte
 
 
 def home(request):
     post_list = Article.objects.all()
+    # 分页
+    paginator = Paginator(post_list, 2)
+    page = request.GET.get('page')
+    try:
+        post_list = paginator.page(page)
+    except PageNotAnInteger:
+        post_list = paginator.page(1)
+    except EmptyPage:
+        post_list = paginator.page(paginator.num_pages)
     return render(request, 'home.html', {'post_list': post_list})
 
 
@@ -92,3 +102,17 @@ def blog_search(request):
                 return render(request, 'archives.html', {'post_list': post_list,
                                                          'error': False})
     return redirect('/')
+
+
+def write(request):
+    date = datetime.datetime.now()
+    return render(request, 'write.html', {"date1": date})
+
+#
+# class writeSqlViewSet(viewsets.ModelViewSet):
+#     '''
+#     存文章接口
+#     '''
+#     queryset = Article.objects.all()
+#     serializer_class = ArticleSerializer
+#     permission_classes = (IsAuthenticated,)
