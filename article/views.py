@@ -2,14 +2,13 @@
 import json
 import os
 import re
-import urllib
-import urllib2
 
 import datetime
 from django.contrib.syndication.views import Feed
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
 from django.http import HttpResponse
+from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect
 
 from article.models import Article
@@ -17,6 +16,8 @@ from article.models import Article
 # Create your views here.
 
 FILEURI = '/vagrant/myblog/file/'
+
+DOWNURL = "http://localhost:8080"
 
 
 class RSSFeed(Feed):
@@ -158,8 +159,9 @@ def mgmt_files(request):  # 列出树形目录，上传文件页面
 def mgmt_file_download(request, *args, **kwargs):  # 提供文件下载页面
 
     if request.method == 'GET':
-        a = os.listdir(FILEURI)
-        # print a
+        path = unicode(FILEURI, "UTF-8")
+        a = os.listdir(path)
+        print a
     return HttpResponse(str(a))
 
 
@@ -176,7 +178,21 @@ def rm(request):
 def download(request):
     if request.method == 'GET':
         uri = request.get_full_path()
-        fileName = result = re.split('\?', uri)
-        url = "http://10.7.7.47:8080" + uri
+        fileName = re.split('\?', uri)
+        url = DOWNURL + uri
 
-        return HttpResponse('下载完成')
+        def file_iterator(fileName, chunk_size=512):
+            with open(fileName) as f:
+                while True:
+                    c = f.read(chunk_size)
+                    if c:
+                        yield c
+                    else:
+                        break
+
+        response = StreamingHttpResponse(file_iterator(FILEURI + fileName[1]))
+        response['Content-Type'] = 'application/octet-stream'
+        response['Content-Disposition'] = 'attachment;filename="{0}"'.format(FILEURI + fileName[1])
+        return response
+
+        # return HttpResponse('下载完成')

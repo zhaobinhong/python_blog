@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,10 +7,10 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script type="text/javascript" src="{% static "js/jquery-3.2.1.js" %}"></script>
     <title>文件上传</title>
 
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
 
     <style type="text/css">
         * {
@@ -92,24 +93,30 @@
         }
 
         down.onclick = function () {
-            if (fileNameInput.value != '') {
-                $.ajax({
-                    type: 'GET',
-                    url: '/download/',
-                    // data:$('#uploadForm').serialize(),
-                    data: data = fileNameInput.value,
-                    processData: false,
-                    contentType: false, //必须false才会自动加上正确的Content-Type
-                    // cache: false,
-                    success: function (response, stutas, xhr) {
-                        console.log(response);
-                    }
-                })
-            } else {
-                alert('请选择操作文件');
-            }
+            {% comment %}            if (fileNameInput.value != '') {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/download/',
+                                // data:$('#uploadForm').serialize(),
+                                data: data = fileNameInput.value,
+                                processData: false,
+                                contentType: false, //必须false才会自动加上正确的Content-Type
+                                // cache: false,
+                                success: function (response, stutas, xhr) {
+                                    console.log(response);
+                                }
+                            })
+                        } else {
+                            alert('请选择操作文件');
+                        }{% endcomment %}
+
+            location.href = "/download/?" + fileNameInput.value;
 
         }
+    }
+
+    function toUTF(data) {
+        return unescape(data.replace(/＼＼u/gi, '%u'));
     }
 
     function shua() {
@@ -122,17 +129,18 @@
             contentType: false, //必须false才会自动加上正确的Content-Type
             // cache: false,
             success: function (response, stutas, xhr) {
-                var strData = response.replace('[', '').replace(']', '');
-                strData = strData.replace(/\'/g, "")
+                console.log(response);
+                var strData = response.replace('[', '').replace(']', '').replace('u', '');
+                strData = strData.replace(/\'/g, "");
                 strData = strData.split(",");
-                //console.log(strData);
+                console.log(strData);
                 var Li;
                 var box = document.getElementById("box");
                 box.innerHTML = '';
                 if (strData != '') {
                     for (var i = 0; i < strData.length; i++) {
                         Li = document.createElement('li');
-                        Li.innerHTML = strData[i];
+                        Li.innerHTML = toUTF(strData[i]);
                         box.appendChild(Li);
                     }
                 }
@@ -182,6 +190,7 @@
 
                     var jsondata = JSON.parse(response);
                     //console.log(jsondata['status'])
+                    console.log(jsondata['fileName']);
                     alert(jsondata['status'] + '，文件名：' + jsondata['fileName'])
                     shua();
                 },
