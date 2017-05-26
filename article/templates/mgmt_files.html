@@ -1,0 +1,211 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <script type="text/javascript" src="{% static "js/jquery-3.2.1.js" %}"></script>
+    <title>文件上传</title>
+
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
+
+    <style type="text/css">
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul li {
+            list-style: none;
+        }
+
+        #box {
+            max-width: 1000px;
+            width: 500px;
+        }
+
+        #box li {
+            text-align: center;
+            margin: 2px 0px;
+            cursor: pointer;
+            background: aquamarine;
+            padding: 4px;
+        }
+
+        .fileNameInput {
+            margin: 20px 0;
+        }
+
+
+    </style>
+</head>
+<body>
+<div class="container ">
+    <form id="uploadForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input id="file" type="file" name="file">
+        {#    <input type="radio" name="ostype" value="Windows"/>Windows#}
+        {#    <input type="radio" name="ostype" value="Linux"/>Linux#}
+        {#    <input type="radio" name="ostype" value="Network"/>Network#}
+        {#    <input type="radio" name="ostype" value="DB"/>DB#}
+        <button id="upload" class="btn btn-success" type="button" style="margin:20px">上传</button>
+    </form>
+
+    <div id="fileList">
+        <ul id="box"></ul>
+        <input type="text" class="fileNameInput form-control col-md-3" placeholder="请选择操作文件" disabled>
+        <input type="button" class="btn btn-danger col-md-2" value="删除" id="rm">
+        <input type="button" class="btn btn-info col-md-2" value="下载" id="down">
+    </div>
+
+
+</div>
+
+
+<script type="text/javascript">
+
+    window.onload = function () {
+        var rm = document.getElementById('rm'), down = document.getElementById("down");
+        var fileNameInput = document.getElementsByClassName("fileNameInput")[0];
+
+        rm.onclick = function () {
+            if (fileNameInput.value != '') {
+                $.ajax({
+                    type: 'GET',
+                    url: '/rm/',
+                    // data:$('#uploadForm').serialize(),
+                    data: data = fileNameInput.value,
+                    processData: false,
+                    contentType: false, //必须false才会自动加上正确的Content-Type
+                    // cache: false,
+                    success: function (response, stutas, xhr) {
+                        console.log(response);
+                        shua();
+                    }
+                })
+            } else {
+                alert('请选择操作文件');
+            }
+
+        }
+
+        down.onclick = function () {
+            {% comment %}            if (fileNameInput.value != '') {
+                            $.ajax({
+                                type: 'GET',
+                                url: '/download/',
+                                // data:$('#uploadForm').serialize(),
+                                data: data = fileNameInput.value,
+                                processData: false,
+                                contentType: false, //必须false才会自动加上正确的Content-Type
+                                // cache: false,
+                                success: function (response, stutas, xhr) {
+                                    console.log(response);
+                                }
+                            })
+                        } else {
+                            alert('请选择操作文件');
+                        }{% endcomment %}
+
+            location.href = "/download/?" + fileNameInput.value;
+
+        }
+    }
+
+    function toUTF(data) {
+        return unescape(data.replace(/＼＼u/gi, '%u'));
+    }
+
+    function shua() {
+        $.ajax({
+            type: 'GET',
+            url: '/shua/',
+            // data:$('#uploadForm').serialize(),
+            data: '',
+            processData: false,
+            contentType: false, //必须false才会自动加上正确的Content-Type
+            // cache: false,
+            success: function (response, stutas, xhr) {
+                console.log(response);
+                var strData = response.replace('[', '').replace(']', '').replace('u', '');
+                strData = strData.replace(/\'/g, "");
+                strData = strData.split(",");
+                console.log(strData);
+                var Li;
+                var box = document.getElementById("box");
+                box.innerHTML = '';
+                if (strData != '') {
+                    for (var i = 0; i < strData.length; i++) {
+                        Li = document.createElement('li');
+                        Li.innerHTML = toUTF(strData[i]);
+                        box.appendChild(Li);
+                    }
+                }
+
+
+                var oLis = document.getElementsByTagName("li");
+                //console.log(oLis)
+                var fileNameInput = document.getElementsByClassName("fileNameInput")[0];
+                for (var j = 0; j < oLis.length; j++) {
+                    oLis[j].onclick = function () {
+                        fileNameInput.value = this.innerHTML;
+                    }
+                }
+
+
+            }
+            // error:function(xhr,errorText,errorStatus){
+            //   alert(xhr.status+' error: '+xhr.statusText);
+            // }
+        });
+    }
+    shua();
+
+    $("#upload").click(function () {
+        // alert(new FormData($('#uploadForm')[0]));
+        {#        var ostype = $('input:radio:checked').val();#}
+        {#        if (ostype == undefined) {#}
+        {#            alert('请选择上传的文件类型');#}
+        {#        }#}
+        {#        console.log(new FormData($('#uploadForm')[0]))#}
+
+        //console.log($('#file').val())
+        if ($('#file').val() != '') {
+            $.ajax({
+                type: 'POST',
+                url: '/file/',
+                // data:$('#uploadForm').serialize(),
+                data: new FormData($('#uploadForm')[0]),
+                processData: false,
+                contentType: false, //必须false才会自动加上正确的Content-Type
+                // cache: false,
+                success: function (response, stutas, xhr) {
+                    // parent.location.reload();
+                    //window.location.reload();
+                    // alert(stutas);
+                    //alert(response);
+
+                    var jsondata = JSON.parse(response);
+                    //console.log(jsondata['status'])
+                    console.log(jsondata['fileName']);
+                    alert(jsondata['status'] + '，文件名：' + jsondata['fileName'])
+                    shua();
+                },
+                // error:function(xhr,errorText,errorStatus){
+                //   alert(xhr.status+' error: '+xhr.statusText);
+                // }
+                timeout: 6000
+            });
+        } else if ($('#file').val() == '') {
+            alert('请选择上传文件。')
+        }
+        //获取单选按钮的值
+
+
+    });
+</script>
+</body>
+</html>

@@ -31,6 +31,10 @@ urlpatterns = [
     url(r'^search/$', views.blog_search, name='blog_search'),
     url(r'^feed/$', RSSFeed(), name="RSS"),
     url(r'^write/$', views.write, name="write"),
+    url(r'^file/$', views.mgmt_files, name="file"),
+    url(r'^shua/$', views.mgmt_file_download, name="download"),
+    url(r'^download/$', views.download, name="download"),
+    url(r'^rm/$', views.rm, name="rm"),
     # url(r'^writeSql/$', views.writeSqlViewSet, name="writeSql"),
 
 ]
