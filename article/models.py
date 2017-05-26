@@ -31,3 +31,18 @@ class Article(models.Model):
         ordering = ['-date_time']
         verbose_name = _(u'文章列表')
         verbose_name_plural = _(u'文章列表')
+
+
+class UploadFileForm(models.Model):
+    title = models.CharField('标题', max_length=50)
+    file = models.FileField()
+
+    def __str__(self):
+        return self.title
+
+    def __unicode__(self):
+        return self.title
+
+    class Meta:  # 按时间下降排序
+        verbose_name = _(u'文件')
+        verbose_name_plural = _(u'文件')
