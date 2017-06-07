@@ -13,6 +13,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from article.models import Article, PostForm
 
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 FILEURI = '/vagrant/myblog/file/'
@@ -197,6 +199,7 @@ def download(request):
 
         # return HttpResponse('下载完成')
 
+@login_required
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
@@ -209,6 +212,7 @@ def post_new(request):
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
 
+@login_required
 def post_edit(request, pk):
     post = get_object_or_404(Article, pk=pk)
     if request.method == "POST":

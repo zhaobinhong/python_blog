@@ -9,6 +9,7 @@
     <title>Hovace Blog</title>
     <link rel="hovace icon" type="image/x-icon" href="{% static "img/4664.png" %}"/>
 
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}">
     <link rel="stylesheet" href="{% static "css/pure-min.css" %}">
     <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}">
     <link rel="stylesheet" href="{% static "css/grids-responsive-min.css" %}">
@@ -66,9 +67,27 @@
                         <a class="button-success pure-button" href="{% url 'RSS' %}">RSS</a>
                     </li>
 
-                    <li class="nav-item">
-                        <a href="/post/new/" class="button-success pure-button"><span class="fa fa-eyedropper"></span>&nbsp;写文章</a>
-                    </li>
+
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a href="/post/new/" class="button-success pure-button"><span
+                                    class="fa fa-eyedropper"></span>&nbsp;新建</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'logout' %}" title="注销" class="pure-button">
+                                <span class="fa fa-power-off"></span>
+                                &nbsp;注销
+                            </a>
+                        </li>
+                        {#                        <li class="active"><a href="{% url 'post_draft_list' %}"><span#}
+                        {#                                class="glyphicon glyphicon-th-list"></span> 草稿箱</a></li>#}
+                    {% else %}
+
+                        <li class="nav-item">
+                            <a href="{% url 'login' %}" class="button-success pure-button"><span
+                                    class="fa fa-sign-in"></span>&nbsp;登录</a>
+                        </li>
+                    {% endif %}
 
 
                 </ul>

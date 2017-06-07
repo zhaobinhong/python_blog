@@ -16,6 +16,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+import django.contrib.auth.views
 from django.contrib import admin
 from article import views
 from article.views import RSSFeed
@@ -30,13 +31,18 @@ urlpatterns = [
     url(r'^tag(?P<tag>\w+)/$', views.search_tag, name='search_tag'),
     url(r'^search/$', views.blog_search, name='blog_search'),
     url(r'^feed/$', RSSFeed(), name="RSS"),
+
     url(r'^write/$', views.write, name="write"),
     url(r'^file/$', views.mgmt_files, name="file"),
     url(r'^shua/$', views.mgmt_file_download, name="download"),
     url(r'^download/$', views.download, name="download"),
     url(r'^rm/$', views.rm, name="rm"),
+
     url(r'^post/new/$', views.post_new, name="post_new"),
     url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
+
+    url(r'^accounts/login/$', django.contrib.auth.views.login, name='login'),
+    url(r'^accounts/logout/$', django.contrib.auth.views.logout, name='logout'),
     # url(r'^writeSql/$', views.writeSqlViewSet, name="writeSql"),
 
 ]

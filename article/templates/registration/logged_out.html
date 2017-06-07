@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div class="row">
+            <!-- <div class="col-sm-3 col-md-2 sidebar"> -->
+
+
+            <p class="alert alert-info">感谢您今天在本站花费了一些宝贵时间。</p>
+
+            <p><a href="/accounts/login/" class="btn btn-primary">重新登录</a></p>
+
+
+        </div>
+    </form>
+{% endblock %}
