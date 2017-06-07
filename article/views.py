@@ -197,7 +197,6 @@ def download(request):
 
         # return HttpResponse('下载完成')
 
-
 def post_new(request):
     if request.method == "POST":
         form = PostForm(request.POST)
