@@ -10,13 +10,21 @@
                     Time: <a class="post-author" href="#">{{ post.date_time|date:"Y /m /d" }}</a> <a
                         class="post-category post-category-js"
                         href="{% url 'search_tag' tag=post.category %}">{{ post.category }}</a>
+
+                    <a style="float: right" class="pure-button" href={% url 'post_edit'  pk=post.pk%}>
+                        <span class="fa fa-eyedropper"></span>
+                        &nbsp;改文章
+                    </a>
                 </p>
+
+
             </header>
+
 
             <div class="post-description">
                 <p>
                     {% load djangomarkdown %}
-                    {{ post.content | djangomarkdown}}
+                    {{ post.content | djangomarkdown }}
                 </p>
             </div>
         </section>
