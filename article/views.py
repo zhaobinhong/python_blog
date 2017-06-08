@@ -199,6 +199,7 @@ def download(request):
 
         # return HttpResponse('下载完成')
 
+
 @login_required
 def post_new(request):
     if request.method == "POST":
@@ -211,6 +212,7 @@ def post_new(request):
     else:
         form = PostForm()
     return render(request, 'post_edit.html', {'form': form})
+
 
 @login_required
 def post_edit(request, pk):
@@ -225,3 +227,10 @@ def post_edit(request, pk):
     else:
         form = PostForm(instance=post)
     return render(request, 'post_edit.html', {'form': form})
+
+
+@login_required
+def post_del(request, pk):
+    Article.objects.filter(id=pk).delete()
+
+    return redirect('/')

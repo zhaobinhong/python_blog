@@ -195,3 +195,11 @@ h3 {
     float: left;
     margin: 10px;
 }
+
+.input-group-addon label {
+    margin-bottom: 0px;
+}
+
+.content div.input-group {
+    margin: 10px 0px;
+}
