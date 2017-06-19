@@ -19,7 +19,8 @@
                         </a>
 
 
-                        <a style="float: right;margin-right: 10px" class="pure-button" href={% url 'post_del'  pk=post.pk %}>
+                        <a style="float: right;margin-right: 10px" class="pure-button"
+                           href={% url 'post_del'  pk=post.pk %}>
                             <span class="fa fa-trash-o"></span>
 
                         </a>
@@ -39,4 +40,9 @@
         </section>
         {#        {% include 'duoshuo.html' %}#}
     </div><!-- /.blog-post -->
+
+    <!-- UY BEGIN -->
+    <div id="uyan_frame"></div>
+    <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2136849"></script>
+    <!-- UY END -->
 {% endblock %}
