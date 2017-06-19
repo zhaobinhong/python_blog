@@ -43,7 +43,7 @@ class RSSFeed(Feed):
 def home(request):
     post_list = Article.objects.all()
     # 分页
-    paginator = Paginator(post_list, 2)
+    paginator = Paginator(post_list, 3)
     page = request.GET.get('page')
     try:
         post_list = paginator.page(page)
