@@ -8,6 +8,7 @@
 *~
 .*
 db.sqlite3
+article/migrations
 __pycache__
 /htmlcov/
 /coverage/
@@ -20,3 +21,4 @@ MANIFEST
 !.travis.yml
 !.gitlab-ci.yml
 !/assets/media/avatar/default.jpg
+/file/**
