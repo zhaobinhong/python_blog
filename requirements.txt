@@ -28,3 +28,5 @@ djangorestframework-oauth
 djangorestframework
 
 markdown
+
+django-jet==1.0.6
