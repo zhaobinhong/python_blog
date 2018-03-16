@@ -21,4 +21,3 @@ MANIFEST
 !.travis.yml
 !.gitlab-ci.yml
 !/assets/media/avatar/default.jpg
-/file/**
