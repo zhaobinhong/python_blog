@@ -1,9 +1,10 @@
 # coding:utf-8
+import datetime
 import json
 import os
 import re
 
-import datetime
+from django.contrib.auth.decorators import login_required
 from django.contrib.syndication.views import Feed
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import Http404
@@ -12,8 +13,6 @@ from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
 
 from article.models import Article, PostForm
-
-from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -41,7 +40,12 @@ class RSSFeed(Feed):
 
 
 def home(request):
-    post_list = Article.objects.all()
+    uid = request.user.id
+    if uid == None:
+        post_list = Article.objects.all()
+    else:
+        post_list = Article.objects.filter(user_id=uid)
+
     # 分页
     paginator = Paginator(post_list, 3)
     page = request.GET.get('page')
