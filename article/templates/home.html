@@ -10,7 +10,7 @@
 
                     <p class="post-meta">
                         时间: <a class="post-author" href="#">{{ post.date_time |date:"Y /m /d" }}</a>
-                        作者: <a class="post-author" href="#">{{ post.user }}</a>
+                        作者: <a class="post-author" href="#">{{ user }}</a>
                         <a class="post-category post-category-js"
                            href="{% url 'search_tag' tag=post.category %}">{{ post.category }}</a>
                     </p>

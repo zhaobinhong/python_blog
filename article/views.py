@@ -40,12 +40,12 @@ class RSSFeed(Feed):
 
 
 def home(request):
-    uid = request.user.id
-    if uid == None:
-        post_list = Article.objects.all()
-    else:
-        post_list = Article.objects.filter(user_id=uid)
-
+    user = request.user
+    # if uid == None:
+    #     post_list = Article.objects.all()
+    # else:
+    #     post_list = Article.objects.filter(user_id=uid)
+    post_list = Article.objects.all()
     # 分页
     paginator = Paginator(post_list, 3)
     page = request.GET.get('page')
@@ -55,7 +55,7 @@ def home(request):
         post_list = paginator.page(1)
     except EmptyPage:
         post_list = paginator.page(paginator.num_pages)
-    return render(request, 'home.html', {'post_list': post_list})
+    return render(request, 'home.html', locals())
 
 
 def detail(request, id):

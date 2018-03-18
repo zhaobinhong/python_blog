@@ -14,7 +14,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Article(models.Model):
-    user = models.ForeignKey(User)
     title = models.CharField(verbose_name='标题', max_length=100)  # 博客题目
     category = models.CharField(verbose_name='标签', max_length=50, blank=True)  # 博客标签
     date_time = models.DateTimeField(auto_now_add=True)  # 博客日期
